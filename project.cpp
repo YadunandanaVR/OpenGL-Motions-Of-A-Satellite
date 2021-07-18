@@ -69,39 +69,52 @@ void background()
     glFlush();
 }
 
-void drawArtSat()
-{
+void drawArtSat(){
+
     GLfloat Y[] = { 1,0.4,0 };
 
+    //To draw dish
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
-    glScalef(1, 0.05, 1);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Y);
+    glPushMatrix();
+    glScalef(1.8, 0.45, 1.9);
     glutSolidSphere(0.5, 30, 30);
     glPopMatrix();
     glPopAttrib();
 
+    //Main body
     glPushMatrix();
-    glTranslatef(0, -0.5, 0);
-    glScalef(0.4, 1, 0.4);
+    glTranslatef(0, -0.8, 0);
+    glScalef(0.7, 1.8, 0.6);
     glutSolidCube(1);
     glPopMatrix();
 
+    //Right Wing
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
     glPushMatrix();
-    glTranslatef(-0.5, -0.45, 0);
-    glScalef(0.75, 0.01, 0.3);
+    glTranslatef(-1.25, -0.7, 0);
+    glScalef(2, 0.0, 1);
     glutSolidCube(1);
     glPopMatrix();
+    glPopAttrib();
 
+    //left wing
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
     glPushMatrix();
-    glTranslatef(0.5, -0.45, 0);
-    glScalef(0.75, 0.01, 0.3);
+    glTranslatef(1.25, -0.7, 0);
+    glScalef(2, 0.0, 1);
     glutSolidCube(1);
     glPopMatrix();
+    glPopAttrib();
 
+    //Antina
     glPushMatrix();
     glTranslatef(0, 0.1, 0);
-    glScalef(0.01, 0.5, 0.01);
+    glScalef(0.1, 1, 0.1);
     glutSolidCube(1);
     glPopMatrix();
 }
