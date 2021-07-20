@@ -118,178 +118,191 @@ void drawArtSat(){
     glutSolidCube(1);
     glPopMatrix();
 }
-//Front view of the scene
+
+//Front view of the scene 
+//By defalut view = 0 so front view is displayed by default
 void frontview()
 {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Light Source
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
     GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha
-    GLfloat DiffuseLight[] = { 0.5f, 0.5f, 0.5f, 0.1f }; //R,G,B,Alpha
+    GLfloat DiffuseLight[] = { 0.5, 0.5, 0.5, 0.1 }; //R,G,B,Alpha
     GLfloat LightPosition[] = { -0.9,0.2, 0.9, 0.1 }; // Set the light position
+
     glLightfv(GL_LIGHT0, GL_AMBIENT, AmbientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, DiffuseLight);
     glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
-
-    //Colors
-    GLfloat Black[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat Cyan[] = { 0.0, 1.0, 1.0, 1.0 };
-    GLfloat White[] = { 1, 1, 1, 0.5 };
-    GLfloat Brown[] = { 0.8, .4, 0.2, 0.2 };
-
+    
+    //To draw sphere or earth
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
-    //Setting Material Properties
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Black); 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Cyan);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0);
-    glRotatef(d, 0, 1, 0);
-    glutSolidSphere(0.5, 32, 32);
+    glPushMatrix();
+    glRotatef(d, 0, 1, 0);                                //With repect to y-axis
+    glutSolidSphere(0.5, 35, 32);                         // glutSolidSphere(GLdouble radius,GLint slices, GLint stacks); //glutWireSphere
     glPopMatrix();
     glPopAttrib();
-
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    
+    //To draw satellite
     glPushMatrix();
-    //Setting Material Properties
-    glRotatef(f, 0, 1, 0);
-    glRotatef(125, 1, 0, 0.5);
+    //Non-angled motion
+    if (angle == 0) {
+        glRotatef(f, 0, 1, 0);
+        glRotatef(125, 1, 0, 0.5);
+    }
+    //Angled motion
+    else {
+        glRotatef(f, 0.2, 1, 0.3);
+        glRotatef(125, 1, 0, 0.5);
+    }
+
     glScalef(0.05, 0.05, 0.05);
     glTranslatef(4, -15, 5);
     drawArtSat();
     glPopMatrix();
-    glPopAttrib();
 
+    //For Moon
+    //retrograde motion is the apparent motion of a planet in a direction opposite to that of other bodies within its system.
+    //For anti-clock wise or rotating along with the earth rotation by default (retograde = 0)
     if (retrograde == 0)
     {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
         glPushMatrix();
-
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
-        //Angled Motion
+        //Non Angled Motion by default angle=0
         if (angle == 0)
-            glRotatef(d, 0, 1, 0.1);
-        else //Normal Motion
-            glRotatef(d, 0.2, 1, 0.3);
+            glRotatef(m, 0, 1, 0.1);
+        else //Angled Motion
+            glRotatef(m, 0.2, 1, 0.3);
+
         glTranslatef(0.9, 0, 0.1);
         glScalef(0.1, 0.1, 0.1);
         glutSolidSphere(0.5, 32, 32);
         glPopMatrix();
+        glPopAttrib();
     }
+
+    //For clock wise or rotating opposite to the earth rotation if retograde = 1;
     if (retrograde == 1)  //Retrograde Motion
     {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
         glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
+
+        //Non-Angled Motion by default angle=0
         if (angle == 0)
-            glRotatef(-d, 0, 1, 0);
-        else
-            glRotatef(-d, 0.2, 1, 0.3);
+            glRotatef(-m, 0, 1, 0);
+        else  //Angled Motion
+            glRotatef(-m, 0.2, 1, 0.3);
+
         glTranslatef(0.9, 0, 0.1);
         glScalef(0.1, 0.1, 0.1);
         glutSolidSphere(0.5, 32, 32);
         glPopMatrix();
+        glPopAttrib();
     }
 
+    //To draw the stars
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, White);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, White);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 00.0);
+    glPushMatrix();
     background();
     glPopMatrix();
     glPopAttrib();
+    
     glutSwapBuffers();
 }
 
+//If view = 1 (topView)
 void topview()
 {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Light Source
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
     GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha
     GLfloat DiffuseLight[] = { 0.5f, 0.5f, 0.5f, 0.1f }; //R,G,B,Alpha
     GLfloat LightPosition[] = { -0.9, 0.9,0.2, 0.1 }; // Set the light position
+
     glLightfv(GL_LIGHT0, GL_AMBIENT, AmbientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, DiffuseLight);
     glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
 
-    //Colors
-    GLfloat Black[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat Cyan[] = { 0.0, 1.0, 1.0, 1.0 };
-    GLfloat White[] = { 1, 1, 1, 0.5 };
-    GLfloat Brown[] = { 0.8, .4, 0.2, 0.2 };
-
+    //Sphere
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
-    //Setting Material Properties
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Cyan);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0);
-    glRotatef(d, 0, 0, 1);
+    glPushMatrix();
+    glRotatef(d, 0, 0, 1);               //With repect to z-axis
     glutSolidSphere(0.5, 32, 32);
     glPopMatrix();
     glPopAttrib();
-
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    
+    //Satellite
     glPushMatrix();
-    glRotatef(f, 0, 0, 1);
+    glRotatef(f, 0, 0, 1);              //With repect to z-axis
     glRotatef(125, 1, 0.2, 0);
     glScalef(0.05, 0.05, 0.05);
-    glTranslatef(4, 5, -15);
+    glTranslatef(9, 5, -15);       
     drawArtSat();
     glPopMatrix();
-    glPopAttrib();
 
     if (retrograde == 0)
     {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
         glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
-        //Angled Motion
         if (angle == 0)
-            glRotatef(d, 0, 0.1, 1);
-        else //Normal Motion
-            glRotatef(d, 0.2, 0.3, 1);
-        glTranslatef(0.9, 0.1, 0);
-        glScalef(0.1, 0.1, 0.1);
-        glutSolidSphere(0.5, 32, 32);
-        glPopMatrix();
-    }
-    if (retrograde == 1)  //Retrograde Motion
-    {
-        glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
-        if (angle == 0)
-            glRotatef(-d, 0, 0, 1);
+            glRotatef(m, 0, 0.1, 1);
         else
-            glRotatef(-d, 0.2, 0.3, 1);
+            glRotatef(m, 0.2, 0.3, 1);
+
         glTranslatef(0.9, 0.1, 0);
         glScalef(0.1, 0.1, 0.1);
         glutSolidSphere(0.5, 32, 32);
         glPopMatrix();
+        glPopAttrib();
+    }
+
+    //Retrograde Motion
+    if (retrograde == 1)
+    {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
+        glPushMatrix();
+        if (angle == 0)
+            glRotatef(-m, 0, 0, 1);
+        else
+            glRotatef(-m, 0.2, 0.3, 1);
+
+        glTranslatef(0.9, 0.1, 0);
+        glScalef(0.1, 0.1, 0.1);
+        glutSolidSphere(0.5, 32, 32);
+        glPopMatrix();
+        glPopAttrib();
     }
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, White);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, White);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 00.0);
+    glPushMatrix();
     background();
     glPopMatrix();
     glPopAttrib();
+
     glutSwapBuffers();
 }
 
@@ -299,82 +312,91 @@ void sideview()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Light Source
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
     GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha
     GLfloat DiffuseLight[] = { 0.5f, 0.5f, 0.5f, 0.1f }; //R,G,B,Alpha
-    GLfloat LightPosition[] = { 0.9,-0.9,0.2, 0.1 }; // Set the light position
+    GLfloat LightPosition[] = {-0.6, -2.5, 1.9, 0.1 }; // Set the light position
+
     glLightfv(GL_LIGHT0, GL_AMBIENT, AmbientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, DiffuseLight);
     glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
-
-    //Colors
-    GLfloat Black[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat Cyan[] = { 0.0, 1.0, 1.0, 1.0 };
-    GLfloat White[] = { 1, 1, 1, 0.5 };
-    GLfloat Brown[] = { 0.8, .4, 0.2, 0.2 };
+    
+    //Earth or sphere
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Cyan);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0);
-    glRotatef(d, 1, 0, 0);
+    glPushMatrix();
+    glRotatef(-d, 1, 0, 0);
     glutSolidSphere(0.5, 32, 32);
     glPopMatrix();
     glPopAttrib();
+    
 
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    //For Satellite
     glPushMatrix();
-    glRotatef(f, 1, 0, 0);
-    glRotatef(125, 0.2, 1, 0);
+    if (angle == 0) {
+        glRotatef(f, 1, 0, 0);
+        glRotatef(60, 1, 1, 0);
+    }
+    else {
+        glRotatef(f, 1, 0.2, 0.3);
+        glRotatef(60, 1, 1, 0);
+    }
+
     glScalef(0.05, 0.05, 0.05);
     glTranslatef(5, 4, -15);
     drawArtSat();
     glPopMatrix();
-    glPopAttrib();
 
+    //For Moon
     if (retrograde == 0)
     {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
         glPushMatrix();
-
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
-        //Angled Motion
         if (angle == 0)
-            glRotatef(d, 1, 0, 0.1);
-        else //Normal Motion
-            glRotatef(d, 1, 0.2, 0.3);
-        glTranslatef(0.1, 0.9, 0);
-        glScalef(0.1, 0.1, 0.1);
-        glutSolidSphere(0.5, 32, 32);
-        glPopMatrix();
-    }
-    if (retrograde == 1)  //Retrograde Motion
-    {
-        glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_AMBIENT, Brown);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, Brown);
-        glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
-        if (angle == 0)
-            glRotatef(-d, 1, 0, 0);
+            glRotatef(-m, 1, 0, 0.1);
         else
-            glRotatef(-d, 1, 0.2, 0.3);
+            glRotatef(-m, 1, 0.2, 0.3);
+
         glTranslatef(0.1, 0.9, 0);
         glScalef(0.1, 0.1, 0.1);
         glutSolidSphere(0.5, 32, 32);
         glPopMatrix();
+        glPopAttrib();
     }
 
+    //Retrograde Motion
+    if (retrograde == 1) 
+    {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, Gray);
+        glPushMatrix();
+        if (angle == 0)
+            glRotatef(m, 1, 0, 0);
+        else
+            glRotatef(m, 1, 0.2, 0.3);
+
+        glTranslatef(0.1, 0.9, 0);
+        glScalef(0.1, 0.1, 0.1);
+        glutSolidSphere(0.5, 32, 32);
+        glPopMatrix();
+        glPopAttrib();
+    }
+
+    //For stars
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, White);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, White);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 00.0);
+    glPushMatrix();
     background();
     glPopMatrix();
     glPopAttrib();
+
     glutSwapBuffers();
 }
 
