@@ -26,7 +26,7 @@ GLfloat a[100] = { 0.55, 0.54, 0.97, 0.27, 0.64, 0.14, 1.00, 0.48, 0.73, 0.32,
                    0.23, 0.53, 0.66, 0.94, 0.86, 0.52, 0.86, 0.64, 0.79, 0.91,
                    0.78, 0.40, 0.04, 0.24, 0.80, 0.87, 0.64 };
 
-void spin(){
+void spin() {
 
     d += 0.15;
     m += 0.015;
@@ -41,8 +41,121 @@ void spin(){
     glutPostRedisplay();
 }
 
+void drawText(GLdouble x, GLdouble y, GLdouble  z, GLdouble scale, const char* s) {
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glScalef(scale, scale, scale);
+    for (int i = 0; i < strlen(s); i++)
+        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, s[i]);
+    glPopMatrix();
+}
+
+void introPage() {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(1, 0, 0);
+    drawText(-1.5, 0.8, 0, 0.001, "DEPARTMENT OF COMPUTER SCIENCE");
+    drawText(-0.8, 0.6, 0, 0.001, "AND ENGINEERING");
+
+    glColor3f(0, 0, 1);
+    drawText(-0.6, 0.4, 0, 0.0005, "AN OPENGL MINI PROJECT");
+
+    glColor3f(0, 1, 0);
+    drawText(-1.4, 0.15, 0, 0.0005, "Simuation Of Motions Of A Satellite Around A Planet");
+
+    glColor3f(1, 1, 0);
+    drawText(0.8, -0.2, 0, 0.0002, "SUBMITTED BY :-");
+
+    glColor3f(1, 0.5, 0);
+    drawText(0.9, -0.25, 0, 0.00029, "YADUNANDANA V R");
+
+    glColor3f(1, 1, 0);
+    drawText(0.94, -0.3, 0, 0.0002, "(1JB18CS178)");
+
+    glColor3f(1, 0.5, 0);
+    drawText(0.9, -0.4, 0, 0.00029, "SYED MOHAMMED SHAZEB");
+
+    glColor3f(1, 1, 0);
+    drawText(0.94, -0.45, 0, 0.0002, "(1JB18CS162)");
+
+    glColor3f(1, 1, 0);
+    drawText(-1.2, -0.2, 0, 0.0002, "UNDER THE GUIDENCE OF :-");
+
+    glColor3f(1, 0.5, 0);
+    drawText(-0.9, -0.25, 0, 0.00029, "MRS MANASA B S");
+
+    glColor3f(1, 1, 0);
+    drawText(-0.89, -0.3, 0, 0.0002, "Assistant Professor");
+
+    glColor3f(1, 1, 0);
+    drawText(-0.83, -0.35, 0, 0.0002, "Dept. Of CSE");
+
+    glColor3f(1, 0.5, 0);
+    drawText(-0.9, -0.45, 0, 0.00029, "MRS CHAITRA H K");
+
+    glColor3f(1, 1, 0);
+    drawText(-0.89, -0.5, 0, 0.0002, "Assistant Professor");
+
+    glColor3f(1, 1, 0);
+    drawText(-0.83, -0.55, 0, 0.0002, "Dept. Of CSE");
+
+    glColor3f(1, 1, 1);
+    drawText(-0.7, -0.8, 0, 0.0005, "S. J. B INSTITUTE OF TECHNOLOGY");
+
+    glColor3f(1, 1, 1);
+    drawText(-0.4, -0.9, 0, 0.0003, "B G S HEALTH AND EDUCATION CITY");
+
+    glColor3f(1, 1, 1);
+    drawText(-0.25, -0.98, 0, 0.00025, "Kengeri, Bangalore-560060");
+
+    glColor3f(1, 1, 1);
+    drawText(1.28, -0.95, 0, 0.00015, "Press (h) to show Help Menu ...");
+
+    glutSwapBuffers();
+}
+
+void help() {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(1, 0.5, 0);
+    drawText(-1.5, 0.8, 0, 0.001, "Key Controls");
+
+    glColor3f(1, 1, 1);
+    drawText(-1.4, 0.6, 0, 0.0004, "1 --> Front View");
+    drawText(-1.4, 0.5, 0, 0.0004, "2 --> Top View");
+    drawText(-1.4, 0.4, 0, 0.0004, "3 --> Side View");
+    drawText(-1.4, 0.3, 0, 0.0004, "4 --> About");
+    drawText(-1.4, 0.2, 0, 0.0004, "a --> Angled Motion");
+    drawText(-1.4, 0.1, 0, 0.0004, "n --> Non Angled Motion");
+    drawText(-1.4, 0.0, 0, 0.0004, "r --> Retrograde Motion");
+    drawText(-1.4, -0.1, 0, 0.0004, "n --> Non Retrograde Motion");
+    drawText(-1.4, -0.2, 0, 0.0004, "h --> Help");
+    drawText(-1.4, -0.3, 0, 0.0004, "+ --> Move Satellite Forward");
+    drawText(-1.4, -0.4, 0, 0.0004, "- --> Move Satellite Backward");
+
+    glutSwapBuffers();
+}
+
+void about() {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(1, 0.5, 0);
+    drawText(-0.3, 0.7, 0, 0.001, "About");
+
+    glColor3f(1, 1, 1);
+    drawText(-1.7, 0.4, 0, 0.0004, "This project aims to simulate the different motions of a satellite around a planet.");
+    drawText(-1.7, 0.3, 0, 0.0004, "It also provides top view and bottom view for better understanding of retrograde");
+    drawText(-1.7, 0.2, 0, 0.0004, "motion and angled motion along with normal motions of a satellite. This will help");
+    drawText(-1.7, 0.1, 0, 0.0004, "the common user to understand the complex science behind satellite motions.");
+
+    glutSwapBuffers();
+}
+
 //To resize without changing shape
-void reshape(int w, int h){
+void reshape(int w, int h) {
 
     GLdouble aspect = (GLdouble)w / (GLdouble)h;
     glMatrixMode(GL_PROJECTION);
@@ -53,10 +166,10 @@ void reshape(int w, int h){
 }
 
 //Randomly Draws points to create stars
-void background(){
+void background() {
 
     glPointSize(2);
-    for (int i = 1; i < 90; i++){
+    for (int i = 1; i < 90; i++) {
 
         glBegin(GL_POINTS);
         glVertex3f(a[i], a[i + 1], -a[i - 1]);
@@ -78,7 +191,7 @@ void background(){
 }
 
 //To draw satellite
-void drawArtSat(){
+void drawArtSat() {
 
     GLfloat Y[] = { 1,0.4,0 };
 
@@ -128,6 +241,7 @@ void drawArtSat(){
     glPopMatrix();
 }
 
+
 //Front view of the scene 
 //By defalut view = 0 so front view is displayed by default
 void frontview()
@@ -139,14 +253,14 @@ void frontview()
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha
+    GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha 0.1, 0.1, 0.1, 1.0
     GLfloat DiffuseLight[] = { 0.5, 0.5, 0.5, 0.1 }; //R,G,B,Alpha
     GLfloat LightPosition[] = { -0.9,0.2, 0.9, 0.1 }; // Set the light position
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, AmbientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, DiffuseLight);
     glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
-    
+
     //To draw sphere or earth
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Black); 
@@ -156,7 +270,7 @@ void frontview()
     glutSolidSphere(0.5, 35, 32);                         // glutSolidSphere(GLdouble radius,GLint slices, GLint stacks); //glutWireSphere
     glPopMatrix();
     glPopAttrib();
-    
+
     //To draw satellite
     glPushMatrix();
     //Non-angled motion
@@ -226,7 +340,7 @@ void frontview()
     background();
     glPopMatrix();
     glPopAttrib();
-    
+
     glutSwapBuffers();
 }
 
@@ -257,13 +371,13 @@ void topview()
     glutSolidSphere(0.5, 32, 32);
     glPopMatrix();
     glPopAttrib();
-    
+
     //Satellite
     glPushMatrix();
     glRotatef(f, 0, 0, 1);              //With repect to z-axis
     glRotatef(125, 1, 0.2, 0);
     glScalef(0.05, 0.05, 0.05);
-    glTranslatef(9, 5, -15);       
+    glTranslatef(9, 5, -15);
     drawArtSat();
     glPopMatrix();
 
@@ -326,12 +440,12 @@ void sideview()
 
     GLfloat AmbientLight[] = { 0.1, 0.1, 0.1, 1.0 };  //R,G,B,Alpha
     GLfloat DiffuseLight[] = { 0.5f, 0.5f, 0.5f, 0.1f }; //R,G,B,Alpha
-    GLfloat LightPosition[] = {-0.6, -2.5, 1.9, 0.1 }; // Set the light position
+    GLfloat LightPosition[] = { -0.6, -2.5, 1.9, 0.1 }; // Set the light position
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, AmbientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, DiffuseLight);
     glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
-    
+
     //Earth or sphere
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Cyan);
@@ -341,7 +455,7 @@ void sideview()
     glutSolidSphere(0.5, 32, 32);
     glPopMatrix();
     glPopAttrib();
-    
+
 
     //For Satellite
     glPushMatrix();
@@ -379,7 +493,7 @@ void sideview()
     }
 
     //Retrograde Motion
-    if (retrograde == 1) 
+    if (retrograde == 1)
     {
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         glMaterialfv(GL_FRONT, GL_AMBIENT, Gray);
@@ -409,7 +523,7 @@ void sideview()
     glutSwapBuffers();
 }
 
-void Key(unsigned char ch, int x, int y){
+void Key(unsigned char ch, int x, int y) {
 
     if (ch == 'r') //For Retrograde
         retrograde = 1;
@@ -419,12 +533,18 @@ void Key(unsigned char ch, int x, int y){
         angle = 1;
     if (ch == 's') //For Non Angular Motion
         angle = 0;
-    if (ch == '1') //For front view
+    if (ch == 'h') //For help menu
+        view = 4;
+    if (ch == '4') //For about page
+        view = 5;
+    if (ch == '0') //For intro page
         view = 0;
-    if (ch == '2') //For top View
+    if (ch == '1') //For front View
         view = 1;
-    if (ch == '3') //For side view
+    if (ch == '2') //For top view
         view = 2;
+    if (ch == '3') //For side view
+        view = 3;
     //Controlling Artificial Satellite
     if (ch == '+')
         f += 2;
@@ -434,44 +554,56 @@ void Key(unsigned char ch, int x, int y){
     glutPostRedisplay();
 }
 
-void display(){
+void display() {
 
-    if (value == 1)
+    if (value == 2)
         retrograde = 1;
-    else if (value == 2)
-        retrograde = 0;
     else if (value == 3)
+        retrograde = 0;
+    else if (value == 1)
         view = 0;
     else if (value == 4)
         view = 1;
     else if (value == 5)
         view = 2;
     else if (value == 6)
-        angle = 1;
+        view = 3;
     else if (value == 7)
+        angle = 1;
+    else if (value == 8)
         angle = 0;
-    else if (value == 8){
+    else if (value == 9) {
         f += 5;
         value = 0;
     }
-    else if (value == 9){
+    else if (value == 10) {
         f -= 5;
         value = 0;
     }
+    else if (value == 11)
+        view = 4;
+    else if (value == 12)
+        view = 5;
 
     if (view == 0)
-        frontview();
+        introPage();
     else if (view == 1)
+        frontview();
+    else if (view == 2)
         topview();
-    else
+    else if (view == 3)
         sideview();
+    else if (view == 4)
+        help();
+    else
+        about();
 
     glutPostRedisplay();
 }
 
-void menu(int num){
+void menu(int num) {
 
-    if (num == 0)
+    if (num == 13)
         exit(0);
     else
         value = num;
@@ -479,28 +611,31 @@ void menu(int num){
     glutPostRedisplay();
 }
 
-void createMenu(void){
+void createMenu(void) {
 
     submenu_id = glutCreateMenu(menu);
-    glutAddMenuEntry("Front View (Keyboard Shortcut->1)", 3);
-    glutAddMenuEntry("Top View (Keyboard Shortcut->2)", 4);
-    glutAddMenuEntry("Side View (Keyboard Shortcut->3)", 5);
+    glutAddMenuEntry("Front View (Keyboard Shortcut->1)", 4);
+    glutAddMenuEntry("Top View (Keyboard Shortcut->2)", 5);
+    glutAddMenuEntry("Side View (Keyboard Shortcut->3)", 6);
     menu_id = glutCreateMenu(menu);
-    glutAddMenuEntry("Retrograde Motion (Keyboard Shortcut->r)", 1);
-    glutAddMenuEntry("Non Retrograde Motion (Keyboard Shortcut->n)", 2);
+    glutAddMenuEntry("IntroPage (Keyboard Shortcut->0)", 1);
+    glutAddMenuEntry("Retrograde Motion (Keyboard Shortcut->r)", 2);
+    glutAddMenuEntry("Non Retrograde Motion (Keyboard Shortcut->n)", 3);
     glutAddSubMenu("Views", submenu_id);
-    glutAddMenuEntry("Angular Motion (Keyboard Shortcut->a)", 6);
-    glutAddMenuEntry("Non Angular Motion (Keyboard Shortcut->s)", 7);
-    glutAddMenuEntry("Quit", 0);
+    glutAddMenuEntry("Angular Motion (Keyboard Shortcut->a)", 7);
+    glutAddMenuEntry("Non Angular Motion (Keyboard Shortcut->s)", 8);
+    glutAddMenuEntry("Help (Keyboard Shortcut->h)", 11);
+    glutAddMenuEntry("About (Keyboard Shortcut->4)", 12);
+    glutAddMenuEntry("Quit", 13);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 
     menu_id = glutCreateMenu(menu);
-    glutAddMenuEntry("Move Artificial Satellite Forward (Keyboard Shortcut->+)", 8);
-    glutAddMenuEntry("Move Artificial Satellite Backward (Keyboard Shortcut->-)", 9);
+    glutAddMenuEntry("Move Artificial Satellite Forward (Keyboard Shortcut->+)", 9);
+    glutAddMenuEntry("Move Artificial Satellite Backward (Keyboard Shortcut->-)", 10);
     glutAttachMenu(GLUT_LEFT_BUTTON);
 }
 
-int main(int C, char* V[]){
+int main(int C, char* V[]) {
 
     glutInit(&C, V);
     glutInitWindowSize(1366, 768);
